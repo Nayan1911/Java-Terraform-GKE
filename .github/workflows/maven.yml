@@ -47,7 +47,7 @@ jobs:
 
     - name: Build and push Docker image
       run: |
-        echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin 
+        echo "Qwerty@12345" | docker login -u sharmanayan --password-stdin 
         docker build -t ${{ env.New_Tag }} .
         docker push ${{ env.New_Tag }}
 
