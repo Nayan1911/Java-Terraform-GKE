@@ -1,7 +1,7 @@
 variable "credentials_file" {
   description = "credentials"
   type        = string
-  default     = "D:/STUDY/DEVOPS/DevOps - Docker, Kubernetes, Terraform and Azure DevOps/PRACTISE/GKE/glowing-palace-414116-d0fd4835216e.json"
+  default     = credentials_file
 }
 
 variable "project_id" {
