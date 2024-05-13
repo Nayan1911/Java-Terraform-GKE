@@ -26,18 +26,6 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
-    # - name: Assigning Branch Date
-    #   run: |
-    #     echo "Branch=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
-    #     echo "Date=$(date +'%d-%m-%y')" >> $GITHUB_ENV
-
-    # - name: Assigning Branch Date
-    #   run: |
-    #     echo ${{ env.Branch }}
-    #     echo ${{ env.Date }}
-    #     echo "new_tag=$IMAGE_NAME:${{ env.Branch }}-${{ env.Date }}.1"
-    #     echo "New_Tag: $new_tag"
-    #     echo "New_Tag=$new_tag" >> $GITHUB_ENV
 
     - name: Build with Maven
       run: mvn -B package --file pom.xml
@@ -54,11 +42,36 @@ jobs:
 
 
   deploy:
-
+    needs: build
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@master
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 1.0.0
+
+    - name: Decode base64-encoded JSON key file
+      run: echo "${{ secrets.GKE_SA_KEY }}" | base64 -d > credentials.json
+
+    - name: Initialize Terraform
+      run: terraform init
+
+    - name: Terraform Plan
+      run: terraform plan
+
+    - name: Terraform Apply
+      run:
+        terraform apply \
+          -var="credentials_file=credentials.json" \
+          -var="project_id=${{ secrets.GKE_PROJECT }}" \
+          -var="region=your-region" \
+          -var="zone=your-zone" \
+          -var="cluster_name=your-cluster-name" \
+          -auto-approve
+
     - name: kubectl - Google Cloud GKE cluster.
       uses: ameydev/gke-kubectl-action@master
       env:
