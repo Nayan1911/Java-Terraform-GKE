@@ -27,19 +27,19 @@ spec:
     #   restartPolicy: Always
     #   terminationGracePeriodSeconds: 30
     spec:
-  containers:
-  - image: sharmanayan/hello-world:0.0.1.RELEASE
-    imagePullPolicy: IfNotPresent
-    name: hello-world
-    resources:
-      requests:
-        memory: "64Mi"     # Request 64 megabytes of memory
-        cpu: "250m"        # Request 250 milliCPU (0.25 CPU cores)
-      limits:
-        memory: "128Mi"    # Limit memory usage to 128 megabytes
-        cpu: "500m"        # Limit CPU usage to 500 milliCPU (0.5 CPU cores)
-  restartPolicy: Always
-  terminationGracePeriodSeconds: 30
+      containers:
+      - image: sharmanayan/hello-world:0.1.RELEASE
+        imagePullPolicy: IfNotPresent
+        name: hello-world
+        resources:
+          requests:
+            memory: "64Mi"     # Request 64 megabytes of memory
+            cpu: "250m"        # Request 250 milliCPU (0.25 CPU cores)
+          limits:
+            memory: "128Mi"    # Limit memory usage to 128 megabytes
+            cpu: "500m"        # Limit CPU usage to 500 milliCPU (0.5 CPU cores)
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
 
 ---
 apiVersion: v1
