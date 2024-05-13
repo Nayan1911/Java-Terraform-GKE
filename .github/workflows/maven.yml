@@ -12,7 +12,6 @@ env:
   GKE_ZONE: us-central1
   IMAGE_NAME: sharmanayan/hello-world:0.1.RELEASE
 
-
 jobs:
   build:
 

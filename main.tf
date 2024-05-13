@@ -27,7 +27,7 @@ resource "google_container_cluster" "cluster" {
 
 resource "kubernetes_service" "hello_world_service" {
   metadata {
-    name      = "hello-world"
+    name      = "hello-world-service"
     namespace = "default"
     labels = {
       app = "hello-world"
