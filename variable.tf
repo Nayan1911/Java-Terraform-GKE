@@ -1,7 +1,7 @@
 variable "credentials_file" {
   description = "credentials"
   type        = string
-  default     = credentials_file
+  default     = "credentials_file"
 }
 
 variable "project_id" {
