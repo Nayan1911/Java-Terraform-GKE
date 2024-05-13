@@ -69,18 +69,18 @@ jobs:
         echo "GOOGLE_APPLICATION_CREDENTIALS: $GOOGLE_APPLICATION_CREDENTIALS"
         gcloud auth list
 
-    - name: Terraform Plan
-      run: terraform plan
+    # - name: Terraform Plan
+    #   run: terraform plan
     
     - name: Terraform Apply
       run: terraform apply -auto-approve
 
-    - name: kubectl - Google Cloud GKE cluster.
-      uses: ameydev/gke-kubectl-action@master
-      env:
-        PROJECT_ID: ${{ secrets.GKE_PROJECT }}
-        APPLICATION_CREDENTIALS: ${{ secrets.GKE_SA_KEY }}
-        CLUSTER_NAME: ${{ env.GKE_CLUSTER }}
-        ZONE_NAME: ${{ env.GKE_ZONE }}
-      with:
-        args: apply -f deployment.yaml
+    # - name: kubectl - Google Cloud GKE cluster.
+    #   uses: ameydev/gke-kubectl-action@master
+    #   env:
+    #     PROJECT_ID: ${{ secrets.GKE_PROJECT }}
+    #     APPLICATION_CREDENTIALS: ${{ secrets.GKE_SA_KEY }}
+    #     CLUSTER_NAME: ${{ env.GKE_CLUSTER }}
+    #     ZONE_NAME: ${{ env.GKE_ZONE }}
+    #   with:
+    #     args: apply -f deployment.yaml
