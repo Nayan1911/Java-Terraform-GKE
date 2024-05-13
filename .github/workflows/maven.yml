@@ -6,6 +6,12 @@ on:
   pull_request:
     branches: [ "main" ]
 
+env:
+  PROJECT_ID: ${{ secrets.GKE_PROJECT }}
+  GKE_CLUSTER: cluster-1    # TODO: update to cluster name
+  GKE_ZONE: us-central1
+
+
 jobs:
   build:
 
@@ -19,7 +25,45 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
+    - name: Assigning Branch Date
+      run: |
+        echo "Branch=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+        echo "Date=$(date +'%d-%m-%y')" >> $GITHUB_ENV
+
+    - name: Assigning Branch Date
+      run: |
+        echo ${{ env.Branch }}
+        echo ${{ env.Date }}
+        echo "new_tag=$IMAGE_NAME:$TAG_WITHOUT_BUILD_NUMBER.1"
+        echo "New_Tag: $new_tag"
+        echo "New_Tag=$new_tag" >> $GITHUB_ENV
+
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
+    - name: Check tag
+      run:
+        echo ${{ env.New_Tag }}
 
+    - name: Build and push Docker image
+      run: |
+        echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin 
+        docker build -t ${{ env.New_Tag }} .
+        docker push ${{ env.New_Tag }}
+
+
+  deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@master
+    - name: kubectl - Google Cloud GKE cluster.
+      uses: ameydev/gke-kubectl-action@master
+      env:
+        PROJECT_ID: ${{ secrets.GKE_PROJECT }}
+        APPLICATION_CREDENTIALS: ${{ secrets.GKE_SA_KEY }}
+        CLUSTER_NAME: ${{ env.GKE_CLUSTER }}
+        ZONE_NAME: ${{ env.GKE_ZONE }}
+      with:
+        args: apply -f deployment.yaml
