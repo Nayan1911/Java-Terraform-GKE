@@ -2,14 +2,14 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: hello-world-rest-api
-  name: hello-world-rest-api
+    app: hello-world
+  name: hello-world
   namespace: default
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: hello-world-rest-api
+      app: hello-world
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -18,21 +18,36 @@ spec:
   template:
     metadata:
       labels:
-        app: hello-world-rest-api
+        app: hello-world
+    # spec:
+    #   containers:
+    #   - image: sharmanayan/hello-world:0.0.1.RELEASE
+    #     imagePullPolicy: IfNotPresent
+    #     name: hello-world
+    #   restartPolicy: Always
+    #   terminationGracePeriodSeconds: 30
     spec:
-      containers:
-      - image: in28min/hello-world-rest-api:0.0.1.RELEASE
-        imagePullPolicy: IfNotPresent
-        name: hello-world-rest-api
-      restartPolicy: Always
-      terminationGracePeriodSeconds: 30
---- 
+  containers:
+  - image: sharmanayan/hello-world:0.0.1.RELEASE
+    imagePullPolicy: IfNotPresent
+    name: hello-world
+    resources:
+      requests:
+        memory: "64Mi"     # Request 64 megabytes of memory
+        cpu: "250m"        # Request 250 milliCPU (0.25 CPU cores)
+      limits:
+        memory: "128Mi"    # Limit memory usage to 128 megabytes
+        cpu: "500m"        # Limit CPU usage to 500 milliCPU (0.5 CPU cores)
+  restartPolicy: Always
+  terminationGracePeriodSeconds: 30
+
+---
 apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: hello-world-rest-api
-  name: hello-world-rest-api
+    app: hello-world
+  name: hello-world
   namespace: default
 spec:
   ports:
@@ -41,6 +56,6 @@ spec:
     protocol: TCP
     targetPort: 8080
   selector:
-    app: hello-world-rest-api
+    app: hello-world
   sessionAffinity: None
   type: LoadBalancer
