@@ -10,6 +10,7 @@ env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
   GKE_CLUSTER: cluster-1    # TODO: update to cluster name
   GKE_ZONE: us-central1
+  IMAGE_NAME: sharmanayan/hello-world:0.1.RELEASE
 
 
 jobs:
@@ -25,31 +26,31 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
-    - name: Assigning Branch Date
-      run: |
-        echo "Branch=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
-        echo "Date=$(date +'%d-%m-%y')" >> $GITHUB_ENV
+    # - name: Assigning Branch Date
+    #   run: |
+    #     echo "Branch=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+    #     echo "Date=$(date +'%d-%m-%y')" >> $GITHUB_ENV
 
-    - name: Assigning Branch Date
-      run: |
-        echo ${{ env.Branch }}
-        echo ${{ env.Date }}
-        echo "new_tag=$IMAGE_NAME:$TAG_WITHOUT_BUILD_NUMBER.1"
-        echo "New_Tag: $new_tag"
-        echo "New_Tag=$new_tag" >> $GITHUB_ENV
+    # - name: Assigning Branch Date
+    #   run: |
+    #     echo ${{ env.Branch }}
+    #     echo ${{ env.Date }}
+    #     echo "new_tag=$IMAGE_NAME:${{ env.Branch }}-${{ env.Date }}.1"
+    #     echo "New_Tag: $new_tag"
+    #     echo "New_Tag=$new_tag" >> $GITHUB_ENV
 
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
     - name: Check tag
       run:
-        echo ${{ env.New_Tag }}
+        echo ${{ env.IMAGE_NAME }}
 
     - name: Build and push Docker image
       run: |
         echo "Qwerty@12345" | docker login -u sharmanayan --password-stdin 
-        docker build -t ${{ env.New_Tag }} .
-        docker push ${{ env.New_Tag }}
+        docker build -t ${{ env.IMAGE_NAME }} .
+        docker push ${{ env.IMAGE_NAME }}
 
 
   deploy:
