@@ -11,7 +11,7 @@ env:
   GKE_CLUSTER: cluster-1    # TODO: update to cluster name
   GKE_ZONE: us-central1
   IMAGE_NAME: sharmanayan/hello-world:0.1.RELEASE
-  CREDENTIALS_FILE: "${{ secrets.GKE_SA_KEY }} | cat key.json | tr -s '\n' ' '"
+  CREDENTIALS_FILE: "${{ secrets.GKE_SA_KEY }} | tr -s '\n' ' '"
 
 jobs:
   build:
@@ -60,7 +60,7 @@ jobs:
       run: terraform init
 
     - name: Terraform Plan
-      run: terraform plan -var="credentials_file=${{ env.CREDENTIALS_FILE }}" -auto-approve
+      run: terraform plan -var="credentials_file=${{ env.CREDENTIALS_FILE }}"
     #       -var="credentials_file=CREDENTIALS_FILE" \
     #       -var="project_id=${{ secrets.GKE_PROJECT }}" \
     #       -var="region=your-region" \
@@ -70,7 +70,7 @@ jobs:
     
 
     - name: Terraform Apply
-      run: terraform apply -var="credentials_file=CREDENTIALS_FILE" -auto-approve
+      run: terraform apply -var="credentials_file=${{ env.CREDENTIALS_FILE }}" -auto-approve
 
     - name: kubectl - Google Cloud GKE cluster.
       uses: ameydev/gke-kubectl-action@master
