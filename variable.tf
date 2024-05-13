@@ -1,7 +1,7 @@
 variable "credentials_file" {
-  description = "Path to the service account JSON key file"
+  description = "credentials"
   type        = string
-  default     = "path/to/your/credentials.json"
+  default     = "D:/STUDY/DEVOPS/DevOps - Docker, Kubernetes, Terraform and Azure DevOps/PRACTISE\GKE/glowing-palace-414116-d0fd4835216e.json"
 }
 
 variable "project_id" {
@@ -19,7 +19,7 @@ variable "region" {
 variable "zone" {
   description = "Google Cloud zone"
   type        = string
-  default     = "us-central1"
+  default     = "us-central1-c"
 }
 
 variable "cluster_name" {

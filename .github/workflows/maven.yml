@@ -53,15 +53,14 @@ jobs:
       with:
         terraform_version: 1.0.0
 
-    - name: Decode base64-encoded JSON key file
-      run: echo "${{ secrets.GKE_SA_KEY }}" | base64 -d > credentials.json
+    # - name: Decode base64-encoded JSON key file
+    #   run: echo "${{ secrets.GKE_SA_KEY }}" | base64 -d > credentials.json
 
     - name: Initialize Terraform
       run: terraform init
 
-    # - name: Terraform Plan
-    #   run: |
-    #     terraform plan \
+    - name: Terraform Plan
+      run: terraform plan
     #       -var="credentials_file=credentials.json" \
     #       -var="project_id=${{ secrets.GKE_PROJECT }}" \
     #       -var="region=your-region" \
@@ -71,8 +70,7 @@ jobs:
     
 
     - name: Terraform Apply
-      run:
-        terraform apply -var="credentials_file=/path/to/credentials.json" -auto-approve
+      run: terraform apply -auto-approve
 
     - name: kubectl - Google Cloud GKE cluster.
       uses: ameydev/gke-kubectl-action@master
