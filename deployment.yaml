@@ -6,7 +6,7 @@ metadata:
   name: hello-world
   namespace: default
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: hello-world
@@ -19,13 +19,6 @@ spec:
     metadata:
       labels:
         app: hello-world
-    # spec:
-    #   containers:
-    #   - image: sharmanayan/hello-world:0.0.1.RELEASE
-    #     imagePullPolicy: IfNotPresent
-    #     name: hello-world
-    #   restartPolicy: Always
-    #   terminationGracePeriodSeconds: 30
     spec:
       containers:
       - image: sharmanayan/hello-world:0.1.RELEASE
