@@ -59,15 +59,16 @@ jobs:
     - name: Initialize Terraform
       run: terraform init
 
-    - name: Terraform Plan
-      run:
-        terraform plan \
-          -var="credentials_file=credentials.json" \
-          -var="project_id=${{ secrets.GKE_PROJECT }}" \
-          -var="region=your-region" \
-          -var="zone=your-zone" \
-          -var="cluster_name=your-cluster-name" \
-          -auto-approve
+    # - name: Terraform Plan
+    #   run: |
+    #     terraform plan \
+    #       -var="credentials_file=credentials.json" \
+    #       -var="project_id=${{ secrets.GKE_PROJECT }}" \
+    #       -var="region=your-region" \
+    #       -var="zone=your-zone" \
+    #       -var="cluster_name=your-cluster-name" \
+    #       -auto-approve
+    
 
     - name: Terraform Apply
       run:
