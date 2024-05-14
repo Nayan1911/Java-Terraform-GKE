@@ -25,39 +25,6 @@ resource "google_container_cluster" "cluster" {
   }
 }
 
-resource "kubernetes_deployment" "hello_world_deployment" {
-  metadata {
-    name      = "hello-world-deployment"
-    namespace = "default"
-  }
-
-  spec {
-    selector {
-      match_labels = {
-        app = "hello-world"
-      }
-    }
-
-    template {
-      metadata {
-        labels = {
-          app = "hello-world"
-        }
-      }
-
-      spec {
-        container {
-          image = "sharmanayan/hello-world:0.1.RELEASE"
-          name  = "hello-world"
-          port {
-            container_port = 8080
-          }
-        }
-      }
-    }
-  }
-}
-
 provider "kubernetes" {
   load_config_file = false
   host             = "https://${google_container_cluster.cluster.endpoint}"
