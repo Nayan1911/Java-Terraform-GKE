@@ -25,30 +25,6 @@ resource "google_container_cluster" "cluster" {
   }
 }
 
-resource "kubernetes_service" "hello_world_service" {
-  metadata {
-    name      = "hello-world-service"
-    namespace = "default"
-    labels = {
-      app = "hello-world"
-    }
-  }
-
-  spec {
-    selector = {
-      app = "hello-world"
-    }
-
-    port {
-      protocol = "TCP"
-      port     = 8080
-      target_port = 8080
-    }
-
-    type = "LoadBalancer"
-  }
-}
-
 resource "kubernetes_ingress" "hello_world_ingress" {
   metadata {
     name      = "hello-world-ingress"
