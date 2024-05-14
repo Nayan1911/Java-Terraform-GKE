@@ -2,14 +2,14 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: hello-world
-  name: hello-world
+    app: hello-app
+  name: example-hello-app-deployment
   namespace: default
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: hello-world
+      app: hello-app
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -18,12 +18,12 @@ spec:
   template:
     metadata:
       labels:
-        app: hello-world
+        app: hello-app
     spec:
       containers:
       - image: sharmanayan/hello-world:0.1.RELEASE
         imagePullPolicy: IfNotPresent
-        name: hello-world
+        name: hhello-app-container
         resources:
           requests:
             memory: "64Mi"     # Request 64 megabytes of memory
@@ -49,7 +49,7 @@ spec:
     protocol: TCP
     targetPort: 8080
   selector:
-    app: hello-world
+    app: hello-app-svc
   sessionAffinity: None
   type: LoadBalancer
 
