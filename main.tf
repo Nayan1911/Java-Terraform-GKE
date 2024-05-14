@@ -25,27 +25,32 @@ resource "google_container_cluster" "cluster" {
   }
 }
 
-resource "kubernetes_ingress" "hello_world_ingress" {
+resource "kubernetes_deployment" "hello_world_deployment" {
   metadata {
-    name      = "hello-world-ingress"
+    name      = "hello-world-deployment"
     namespace = "default"
-    labels = {
-      app = "hello-world"
-    }
-    annotations = {
-      "kubernetes.io/ingress.class" = "nginx"
-    }
   }
 
   spec {
-    rule {
-      host = "example.com" # Replace with your domain once you have one
-      http {
-        path {
-          path = "/"
-          backend {
-            service_name = kubernetes_service.hello_world_service.metadata[0].name
-            service_port = kubernetes_service.hello_world_service.spec[0].port[0].port
+    selector {
+      match_labels = {
+        app = "hello-world"
+      }
+    }
+
+    template {
+      metadata {
+        labels = {
+          app = "hello-world"
+        }
+      }
+
+      spec {
+        container {
+          image = "sharmanayan/hello-world:0.1.RELEASE"
+          name  = "hello-world"
+          ports {
+            container_port = 8080
           }
         }
       }

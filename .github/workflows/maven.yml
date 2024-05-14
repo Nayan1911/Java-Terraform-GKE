@@ -109,3 +109,30 @@ jobs:
     #     type = "LoadBalancer"
     #   }
     # }
+#     resource "kubernetes_ingress" "hello_world_ingress" {
+#   metadata {
+#     name      = "hello-world-ingress"
+#     namespace = "default"
+#     labels = {
+#       app = "hello-world"
+#     }
+#     annotations = {
+#       "kubernetes.io/ingress.class" = "nginx"
+#     }
+#   }
+
+#   spec {
+#     rule {
+#       host = "example.com" # Replace with your domain once you have one
+#       http {
+#         path {
+#           path = "/"
+#           backend {
+#             service_name = kubernetes_service.hello_world_service.metadata[0].name
+#             service_port = kubernetes_service.hello_world_service.spec[0].port[0].port
+#           }
+#         }
+#       }
+#     }
+#   }
+# }
