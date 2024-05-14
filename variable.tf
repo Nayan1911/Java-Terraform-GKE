@@ -27,3 +27,7 @@ variable "cluster_name" {
   type        = string
   default     = "cluster-1"
 }
+
+variable "kubernetes_token" {
+  description = "Authentication token for accessing the Kubernetes API server"
+}
