@@ -49,7 +49,7 @@ resource "kubernetes_deployment" "hello_world_deployment" {
         container {
           image = "sharmanayan/hello-world:0.1.RELEASE"
           name  = "hello-world"
-          ports {
+          port {
             container_port = 8080
           }
         }
