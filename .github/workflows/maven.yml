@@ -69,8 +69,8 @@ jobs:
         echo "GOOGLE_APPLICATION_CREDENTIALS: $GOOGLE_APPLICATION_CREDENTIALS"
         gcloud auth list
 
-    # - name: Terraform Plan
-    #   run: terraform plan
+    - name: Terraform Plan
+      run: terraform plan
     
     - name: Terraform Apply
       run: terraform apply -auto-approve
@@ -84,3 +84,5 @@ jobs:
     #     ZONE_NAME: ${{ env.GKE_ZONE }}
     #   with:
     #     args: apply -f deployment.yaml
+
+
